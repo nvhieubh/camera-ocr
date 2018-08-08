@@ -51,7 +51,7 @@
 - (NSString *)nameType{
     switch (self.viewType) {
         case TypeItemScanMerchant:
-            return @"Merchant Name";
+            return @"MerchantName";
             break;
         case TypeItemScanDate:
             return @"Date";
