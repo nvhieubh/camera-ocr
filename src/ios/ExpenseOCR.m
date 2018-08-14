@@ -4,8 +4,9 @@
 #import "OCRViewController.h"
 #import "NSData+Base64.h"
 @interface ExpenseOCR : CDVPlugin<OCRViewControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
-    // Member variables go here.
+  // Member variables go here.
     NSString *commandID;
+    UIViewController *presentVC;
 }
 
 - (void)coolMethod:(CDVInvokedUrlCommand*)command;
@@ -19,7 +20,7 @@
         commandID = command.callbackId;
         [self openCamera];
     }
-    
+	
     
 }
 
@@ -34,18 +35,18 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
-    OCRViewController *vc = [[OCRViewController alloc] initWithNibName:@"OCRViewController" bundle:nil];
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
-    vc.image = image;
-    vc.delegate = self;
-    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
-    
-    [picker dismissViewControllerAnimated:NO
-                               completion:^{
-                                   [self.viewController presentViewController:navi animated:YES completion:^{
+     OCRViewController *vc = [[OCRViewController alloc] initWithNibName:@"OCRViewController" bundle:nil];
+     UIImage *image = info[UIImagePickerControllerOriginalImage];
+     vc.image = image;
+     vc.delegate = self;
+     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
+    presentVC = navi;
+     [picker dismissViewControllerAnimated:NO
+                                completion:^{
+                                    [self.viewController presentViewController:navi animated:YES completion:^{
                                        
-                                   }];
-                               }];
+                                    }];
+                                }];
     
 }
 
@@ -66,7 +67,10 @@
         }
         
         [self.commandDelegate sendPluginResult:pluginResult callbackId:commandID];
-        //commandID = @"";
+        [presentVC dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+        commandID = @"";
     }
     
 }
