@@ -20,7 +20,7 @@
     [super viewDidLoad];
     [self setupCropView];
     self.textDetector = [GMVDetector detectorOfType:GMVDetectorTypeText options:nil];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
     [self.merchantItemScan setType:TypeItemScanMerchant];
     [self.amountItemScan setType:TypeItemScanAmount];
     [self.dateItemScan setType:TypeItemScanDate];
@@ -36,7 +36,10 @@
     [self.doneButton setImage:[UIImage imageNamed:@"icon_expense-1.svg"] forState:UIControlStateNormal];
     
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [cropView performInitialSetup];
+}
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [cropView moveCroppedContentToCenterAnimated:YES];
@@ -50,7 +53,7 @@
     //    [self.imageCroper setHiddenCropView:YES];
     cropView = [[TOCropView alloc] initWithCroppingStyle:TOCropViewCroppingStyleDefault image:self.image];
     
-
+    
     CGRect frame = _imageCroper.frame;
     frame.origin.x = 0;
     frame.origin.y = 0;
@@ -61,39 +64,39 @@
     [_imageCroper addSubview:cropView];
     
     NSLayoutConstraint *leadingConst = [NSLayoutConstraint
-                                                        constraintWithItem:cropView
-                                                        attribute:NSLayoutAttributeLeading
-                                                        relatedBy:NSLayoutRelationEqual
-                                                        toItem:_imageCroper
-                                                        attribute:NSLayoutAttributeLeading
-                                                        multiplier:1.0
-                                                        constant:0];
+                                        constraintWithItem:cropView
+                                        attribute:NSLayoutAttributeLeading
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:_imageCroper
+                                        attribute:NSLayoutAttributeLeading
+                                        multiplier:1.0
+                                        constant:0];
     NSLayoutConstraint *trailingConst = [NSLayoutConstraint
-                                        constraintWithItem:cropView
-                                        attribute:NSLayoutAttributeTrailing
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:_imageCroper
-                                        attribute:NSLayoutAttributeTrailing
-                                        multiplier:1.0
-                                        constant:0];
+                                         constraintWithItem:cropView
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                         toItem:_imageCroper
+                                         attribute:NSLayoutAttributeTrailing
+                                         multiplier:1.0
+                                         constant:0];
     NSLayoutConstraint *topConst = [NSLayoutConstraint
-                                        constraintWithItem:cropView
-                                        attribute:NSLayoutAttributeTop
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:_imageCroper
-                                        attribute:NSLayoutAttributeTop
-                                        multiplier:1.0
-                                        constant:0];
+                                    constraintWithItem:cropView
+                                    attribute:NSLayoutAttributeTop
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:_imageCroper
+                                    attribute:NSLayoutAttributeTop
+                                    multiplier:1.0
+                                    constant:0];
     NSLayoutConstraint *bottomConst = [NSLayoutConstraint
-                                        constraintWithItem:cropView
-                                        attribute:NSLayoutAttributeBottom
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:_imageCroper
-                                        attribute:NSLayoutAttributeBottom
-                                        multiplier:1.0
-                                        constant:0];
+                                       constraintWithItem:cropView
+                                       attribute:NSLayoutAttributeBottom
+                                       relatedBy:NSLayoutRelationEqual
+                                       toItem:_imageCroper
+                                       attribute:NSLayoutAttributeBottom
+                                       multiplier:1.0
+                                       constant:0];
     [_imageCroper addConstraints:@[bottomConst,topConst,trailingConst,leadingConst]];
-
+    
 }
 
 - (IBAction)touchToScan:(id)sender {
@@ -150,19 +153,19 @@
 - (void)didTouchToSelected:(ItemScan *)itemScan{
     for (ItemScan *item in listItemScan) {
         if (![item isEqual:itemScan]) {
-            [item setUserInteractionEnabled:NO];
+            [item setSelected:NO];
         }
     }
-//    [self.imageCroper setHiddenCropView:NO];
+    //    [self.imageCroper setHiddenCropView:NO];
 }
 - (void)didTouchToDeSelect:(ItemScan *)itemScan{
     
     for (ItemScan *item in listItemScan) {
         if (![item isEqual:itemScan]) {
-            [item setUserInteractionEnabled:YES];
+            //            [item setSelected:YES];
         }
     }
-//    [self.imageCroper setHiddenCropView:YES];
+    //    [self.imageCroper setHiddenCropView:YES];
 }
 
 @end

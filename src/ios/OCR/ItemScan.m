@@ -10,12 +10,12 @@
 @implementation ItemScan
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self.buttonAction addTarget:self action:@selector(touchButtonAction) forControlEvents:UIControlEventTouchUpInside];
@@ -71,14 +71,24 @@
     [self updateGUI];
 }
 - (void)setValueScaned:(NSString *)text{
-    draftText = text;
-    [self.labelValue setText:[text stringByReplacingOccurrencesOfString:@"\n" withString:@" "]];
+    if (!text) {
+        draftText = @"";
+    }else{
+        draftText = text;
+    }
+    
+    [self.labelValue setText:[draftText stringByReplacingOccurrencesOfString:@"\n" withString:@" "]];
 }
 - (void)setSelected:(BOOL)select{
     self.isSelected = select;
     [self updateGUI];
 }
 - (NSDictionary *)data{
-    return [NSDictionary dictionaryWithObject:confirmText forKey:[self nameType]];
+   /*/ if(!confirmText){
+        confirmText = @"";
+    }*/
+    if(!draftText)
+        draftText =@"";
+    return [NSDictionary dictionaryWithObject:draftText forKey:[self nameType]];
 }
 @end
