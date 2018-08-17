@@ -39,6 +39,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [cropView performInitialSetup];
+    self.navigationController.navigationBar.hidden = YES;
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
